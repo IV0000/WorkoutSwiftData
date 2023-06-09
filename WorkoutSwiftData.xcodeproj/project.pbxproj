@@ -58,8 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				FF7B857F2A31B28500ABE703 /* WorkoutSwiftDataApp.swift */,
-				FF7B85942A33598E00ABE703 /* ExerciseView.swift */,
-				FF7B85812A31B28500ABE703 /* WorkoutView.swift */,
+				FF7B85962A33607D00ABE703 /* View */,
 				FF7B858D2A31B42800ABE703 /* Model */,
 				FF7B85832A31B28600ABE703 /* Assets.xcassets */,
 				FF7B85852A31B28600ABE703 /* Preview Content */,
@@ -82,6 +81,15 @@
 				FF7B85922A31B57C00ABE703 /* Exercise.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		FF7B85962A33607D00ABE703 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FF7B85812A31B28500ABE703 /* WorkoutView.swift */,
+				FF7B85942A33598E00ABE703 /* ExerciseView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
