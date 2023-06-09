@@ -12,7 +12,7 @@ import SwiftData
 struct WorkoutSwiftDataApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WorkoutView()
                 .modelContainer(for: [Workout.self,Exercise.self])
         }
     }
