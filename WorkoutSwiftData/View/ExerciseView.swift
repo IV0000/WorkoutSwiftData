@@ -10,9 +10,8 @@ import SwiftUI
 
 struct ExerciseView: View {
     @Environment(\.modelContext) private var context
-    @Query(sort: \.name, order: .forward) var allExercises: [Exercise]
+    @Query(sort: [SortDescriptor(\Exercise.name, order: .forward)]) var allExercises: [Exercise]
     @State var showDetail: Bool = false
-//    @State var selectedExercise: Exercise = Exercise(name: "fff", information: "", category: ExerciseCategory.upperbody.rawValue)
     @State var selectedExercise: Exercise?
     var body: some View {
         VStack {

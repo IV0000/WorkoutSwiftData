@@ -10,10 +10,16 @@ import SwiftUI
 
 struct WorkoutView: View {
     @Environment(\.modelContext) private var context
+
     @Query(filter: #Predicate<Workout> { !$0.name.contains("test") },
-           sort: \.createdAt, order: .reverse,
-           animation: .bouncy) var allWorkouts: [Workout]
-    @Query(sort: \.name, order: .forward, animation: .bouncy) var allExercises: [Exercise]
+           sort: [SortDescriptor(\Workout.createdAt, order: .reverse)],
+           animation: .bouncy)
+    var allWorkouts: [Workout]
+
+    @Query(sort: [SortDescriptor(\Exercise.name, order: .forward)],
+           animation: .bouncy)
+    var allExercises: [Exercise]
+
     @State var workoutName: String = ""
     @State var workoutDescription: String = ""
     var exercises: [Exercise] = []
@@ -44,6 +50,9 @@ struct WorkoutView: View {
                         indexSet.forEach {
                             context.delete(allWorkouts[$0])
                         }
+                        /* After deleting an item, SwiftUI might attempt to reference the deleted content during the animation causing a crash.
+                         Workaround: Explicitly save after a delete.
+                         */
                         try? context.save()
                     })
                 }
