@@ -12,6 +12,7 @@ struct ExerciseView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \.name, order: .forward) var allExercises: [Exercise]
     @State var showDetail: Bool = false
+//    @State var selectedExercise: Exercise = Exercise(name: "fff", information: "", category: ExerciseCategory.upperbody.rawValue)
     @State var selectedExercise: Exercise?
     var body: some View {
         VStack {
@@ -45,7 +46,8 @@ struct ExerciseView: View {
             }
         }
         .sheet(isPresented: $showDetail, content: {
-            ExerciseDetailView(selectedExercise: $selectedExercise)
+            ExerciseDetailView(selectedExercise: (selectedExercise ?? Exercise.mock().first)!)
+
         })
     }
 }
@@ -53,7 +55,7 @@ struct ExerciseView: View {
 struct ExerciseDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
-    @Binding var selectedExercise: Exercise?
+    @Bindable var selectedExercise: Exercise
     @State var exerciseName: String = ""
     @State var exerciseDescription: String = ""
     @State var exerciseCategory: ExerciseCategory = .upperbody
@@ -63,9 +65,8 @@ struct ExerciseDetailView: View {
                 // Add check of not empty
                 Section("New exercise") {
                     // Handle binding optional
-                    Binding($selectedExercise).map {
-                        TextField("Exercise name", text: $0.name)
-                    }
+
+                    TextField("Exercise name", text: $selectedExercise.name)
 
 //                    TextField("Exercise description", text: Binding(selectedExercise?.information ?? ""))
 //                        .lineLimit(1 ... 3)
@@ -85,12 +86,13 @@ struct ExerciseDetailView: View {
     }
 
     func createExercise() {
-        let exercise = Exercise(name: exerciseName,
-                                information: exerciseDescription,
-                                category: exerciseCategory.rawValue)
-        context.insert(exercise)
+//       if let exercise = selectedExercise {
+        context.insert(Exercise(name: selectedExercise.name,
+                                information: selectedExercise.information,
+                                category: selectedExercise.category))
         try? context.save()
         resetFields()
+//       }
     }
 
     func resetFields() {
@@ -102,4 +104,11 @@ struct ExerciseDetailView: View {
 
 #Preview {
     ExerciseView()
+}
+
+func ?? <T>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
+    Binding(
+        get: { lhs.wrappedValue ?? rhs },
+        set: { lhs.wrappedValue = $0 }
+    )
 }

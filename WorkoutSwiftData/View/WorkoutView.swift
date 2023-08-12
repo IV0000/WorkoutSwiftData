@@ -10,8 +10,10 @@ import SwiftUI
 
 struct WorkoutView: View {
     @Environment(\.modelContext) private var context
-    @Query(sort: \.createdAt, order: .reverse) var allWorkouts: [Workout]
-    @Query(sort: \.name, order: .forward) var allExercises: [Exercise]
+    @Query(filter: #Predicate<Workout> { !$0.name.contains("test") },
+           sort: \.createdAt, order: .reverse,
+           animation: .bouncy) var allWorkouts: [Workout]
+    @Query(sort: \.name, order: .forward, animation: .bouncy) var allExercises: [Exercise]
     @State var workoutName: String = ""
     @State var workoutDescription: String = ""
     var exercises: [Exercise] = []

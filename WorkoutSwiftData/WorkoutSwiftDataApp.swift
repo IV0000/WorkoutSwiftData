@@ -16,7 +16,7 @@ struct WorkoutSwiftDataApp: App {
                 workoutView
                 exerciseView
             }
-            .modelContainer(for: [Workout.self, Exercise.self])
+            .modelContainer(for: Workout.self) /* No need to puth [Workout,Exercise], since we have a relationship between them*/
         }
     }
 
