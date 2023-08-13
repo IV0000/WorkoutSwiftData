@@ -22,8 +22,11 @@ struct ExerciseView: View {
                     ForEach(allExercises) { exercise in
                         VStack(alignment: .leading) {
                             Text(exercise.name)
+                                .font(.title)
+                            Text(exercise.category.rawValue)
+                                .font(.callout)
+                            Divider()
                             Text(exercise.information)
-                            Text(exercise.category)
                         }
                         .onTapGesture {
                             showDetail.toggle()
@@ -38,11 +41,28 @@ struct ExerciseView: View {
                     })
                 }
             }
+            .listStyle(.plain)
         }
         .toolbar {
-            Button("Add new") {
-                showDetail.toggle()
-            }
+            ToolbarItem(placement: .topBarTrailing, content: {
+                Button("Filter") {
+                    // TODO: Implement
+                }
+            })
+            ToolbarItem(placement: .bottomBar, content: {
+                Button(action: {
+                    showDetail.toggle()
+                }, label: {
+                    Text("Add new exercise")
+                        .padding(10)
+                        .font(.title2)
+                        .foregroundStyle(.white)
+                        .background {
+                            RoundedRectangle(cornerRadius: 10)
+                        }
+
+                })
+            })
         }
         .sheet(isPresented: $showDetail, content: {
             ExerciseDetailView(selectedExercise: (selectedExercise ?? Exercise.mock().first)!)
@@ -55,25 +75,19 @@ struct ExerciseDetailView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) var dismiss
     @Bindable var selectedExercise: Exercise
-    @State var exerciseName: String = ""
-    @State var exerciseDescription: String = ""
-    @State var exerciseCategory: ExerciseCategory = .upperbody
     var body: some View {
         VStack {
             List {
                 // Add check of not empty
                 Section("New exercise") {
-                    // Handle binding optional
-
                     TextField("Exercise name", text: $selectedExercise.name)
-
-//                    TextField("Exercise description", text: Binding(selectedExercise?.information ?? ""))
-//                        .lineLimit(1 ... 3)
-//                    Picker("Exercise type", selection: Binding( selectedExercise?.categoryType ?? ExerciseCategory.upperbody)) {
-//                        ForEach(ExerciseCategory.allCases, id: \.self) { category in
-//                            Text(category.rawValue.capitalized)
-//                        }
-//                    }
+                    TextField("Exercise description", text: $selectedExercise.information)
+                    Picker("Select category", selection: $selectedExercise.category) {
+                        ForEach(ExerciseCategory.allCases, id: \.self) { option in
+                            Text(String(describing: option))
+                        }
+                    }
+                    .pickerStyle(.wheel)
                     Button("Save") {
                         createExercise()
                         dismiss()
@@ -88,21 +102,23 @@ struct ExerciseDetailView: View {
 //       if let exercise = selectedExercise {
         context.insert(Exercise(name: selectedExercise.name,
                                 information: selectedExercise.information,
-                                category: selectedExercise.category))
-        try? context.save()
-        resetFields()
+                                category: selectedExercise._category))
+//        resetFields()
 //       }
     }
 
     func resetFields() {
-        exerciseName = ""
-        exerciseDescription = ""
-        exerciseCategory = .upperbody
+        selectedExercise.name = ""
+        selectedExercise.information = ""
+        selectedExercise.category = .upperbody
     }
 }
 
 #Preview {
-    ExerciseView()
+    NavigationStack {
+        ExerciseView()
+            .modelContainer(for: Exercise.self, inMemory: true)
+    }
 }
 
 func ?? <T>(lhs: Binding<T?>, rhs: T) -> Binding<T> {

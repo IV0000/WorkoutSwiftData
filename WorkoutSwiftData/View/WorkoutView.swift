@@ -37,26 +37,30 @@ struct WorkoutView: View {
                 if allWorkouts.isEmpty {
                     ContentUnavailableView("You don't have workouts yet", systemImage: "dumbbell.fill")
                 } else {
-                    ForEach(allWorkouts) { workout in
-                        VStack(alignment: .leading) {
-                            Text(workout.name)
-                            Text(workout.information)
-                            if !workout.exerciseList.isEmpty {
-                                Text("Exercises: " + workout.exerciseList.map { $0.name }.joined(separator: ", "))
+                    Section("Workouts") {
+                        ForEach(allWorkouts) { workout in
+                            VStack(alignment: .leading) {
+                                Text(workout.name)
+                                Text(workout.information)
+
+                                if let exercises = workout.exercises, !exercises.isEmpty {
+                                    Text("Exercises: " + exercises.map { $0.name }.joined(separator: ", "))
+                                }
                             }
                         }
+                        .onDelete(perform: { indexSet in
+                            indexSet.forEach {
+                                context.delete(allWorkouts[$0])
+                            }
+                            /* After deleting an item, SwiftUI might attempt to reference the deleted content during the animation causing a crash.
+                             Workaround: Explicitly save after a delete.
+                             */
+                            try? context.save()
+                        })
                     }
-                    .onDelete(perform: { indexSet in
-                        indexSet.forEach {
-                            context.delete(allWorkouts[$0])
-                        }
-                        /* After deleting an item, SwiftUI might attempt to reference the deleted content during the animation causing a crash.
-                         Workaround: Explicitly save after a delete.
-                         */
-                        try? context.save()
-                    })
                 }
             }
+            .listStyle(.plain)
         }
     }
 
@@ -64,13 +68,12 @@ struct WorkoutView: View {
         let workout = Workout(id: UUID().uuidString,
                               name: workoutName,
                               createdAt: Date(),
-                              information: workoutDescription,
-                              exerciseList: [])
+                              information: workoutDescription)
         context.insert(workout)
-        try? context.save()
     }
 }
 
 #Preview {
     WorkoutView()
+        .modelContainer(for: Workout.self, inMemory: true)
 }

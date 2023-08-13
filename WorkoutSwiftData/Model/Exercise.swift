@@ -12,20 +12,22 @@ import SwiftData
 final class Exercise {
     @Attribute(.unique) var name: String
     var information: String
-    var category: ExerciseCategory.RawValue
+    var _category: ExerciseCategory.RawValue
 
     init(name: String, information: String, category: ExerciseCategory.RawValue) {
         self.name = name
         self.information = information
-        self.category = category
+        _category = category
     }
 }
 
 // We use this to handle the enum case
 extension Exercise {
+    /* Workaround to store enums */
     @Transient
-    var categoryType: ExerciseCategory {
-        ExerciseCategory(rawValue: category) ?? .upperbody
+    var category: ExerciseCategory {
+        get { ExerciseCategory(rawValue: _category)! }
+        set { _category = newValue.rawValue }
     }
 
     static func mock() -> [Exercise] {
@@ -37,6 +39,6 @@ extension Exercise {
 }
 
 enum ExerciseCategory: String, CaseIterable {
-    case upperbody
-    case lowerbody
+    case upperbody = "Upperbody"
+    case lowerbody = "Lowerbody"
 }
