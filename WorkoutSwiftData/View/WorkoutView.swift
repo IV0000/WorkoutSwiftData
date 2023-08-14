@@ -40,14 +40,20 @@ struct WorkoutView: View {
                     Section("Workouts") {
                         ForEach(allWorkouts) { workout in
                             VStack(alignment: .leading) {
-                                Text(workout.name)
-                                Text(workout.information)
+                                NavigationLink(value: workout) {
+                                    Text(workout.name)
+                                    Text(workout.information)
 
-                                if let exercises = workout.exercises, !exercises.isEmpty {
-                                    Text("Exercises: " + exercises.map { $0.name }.joined(separator: ", "))
+                                    if exercises.isEmpty {
+                                        Text("Exercises: " + exercises.map { $0.name }.joined(separator: ", "))
+                                    }
                                 }
                             }
+                            .navigationDestination(for: Workout.self) { workout in
+                                WorkoutDetailView(workout: workout)
+                            }
                         }
+
                         .onDelete(perform: { indexSet in
                             indexSet.forEach {
                                 context.delete(allWorkouts[$0])

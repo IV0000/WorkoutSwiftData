@@ -14,7 +14,8 @@ final class Workout {
     var name: String
     var information: String // * read the note below *
     var createdAt: Date
-    @Relationship var exercises: [Exercise]?
+    @Relationship
+    var exercises: [Exercise]
 
     init(id: String, name: String, createdAt: Date, information: String) {
         self.id = id

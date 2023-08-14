@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ExerciseView: View {
     @Environment(\.modelContext) private var context
-    @Query(sort: [SortDescriptor(\Exercise.name, order: .forward)]) var allExercises: [Exercise]
+//    @Query(sort: [SortDescriptor<Workout>(\Workout.exercises.name, order: .forward)]) var allExercises: [Exercise]
+    @Query var allExercises: [Exercise]
     @State var showDetail: Bool = false
     @State var selectedExercise: Exercise?
     @State var searchName: String = ""
@@ -46,18 +47,13 @@ struct ExerciseView: View {
         }
         .searchable(text: $searchName, prompt: "Search an exercise name")
         .toolbar {
-            ToolbarItem(placement: .bottomBar, content: {
+            ToolbarItem(placement: .topBarTrailing, content: {
                 Button(action: {
                     showDetail.toggle()
                 }, label: {
-                    Text("Add new exercise")
-                        .padding(10)
-                        .font(.title2)
-                        .foregroundStyle(.white)
-                        .background {
-                            RoundedRectangle(cornerRadius: 10)
-                        }
-
+                    Text("+ New exercise")
+                        .padding(6)
+                        .foregroundStyle(.black)
                 })
             })
         }

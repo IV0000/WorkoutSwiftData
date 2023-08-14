@@ -13,6 +13,8 @@ final class Exercise {
     @Attribute(.unique) var name: String
     var information: String
     var _category: ExerciseCategory.RawValue
+    @Relationship(inverse: \Workout.exercises)
+    var workout: Workout?
 
     init(name: String, information: String, category: ExerciseCategory.RawValue) {
         self.name = name
