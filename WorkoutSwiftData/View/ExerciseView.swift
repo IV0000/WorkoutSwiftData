@@ -13,13 +13,14 @@ struct ExerciseView: View {
     @Query(sort: [SortDescriptor(\Exercise.name, order: .forward)]) var allExercises: [Exercise]
     @State var showDetail: Bool = false
     @State var selectedExercise: Exercise?
+    @State var searchName: String = ""
     var body: some View {
         VStack {
             List {
                 if allExercises.isEmpty {
                     ContentUnavailableView("You don't have exercises yet", systemImage: "figure.strengthtraining.traditional")
                 } else {
-                    ForEach(allExercises) { exercise in
+                    ForEach(filteredExercises) { exercise in
                         VStack(alignment: .leading) {
                             Text(exercise.name)
                                 .font(.title)
@@ -43,12 +44,8 @@ struct ExerciseView: View {
             }
             .listStyle(.plain)
         }
+        .searchable(text: $searchName, prompt: "Search an exercise name")
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing, content: {
-                Button("Filter") {
-                    // TODO: Implement
-                }
-            })
             ToolbarItem(placement: .bottomBar, content: {
                 Button(action: {
                     showDetail.toggle()
@@ -68,6 +65,20 @@ struct ExerciseView: View {
             ExerciseDetailView(selectedExercise: (selectedExercise ?? Exercise.mock().first)!)
 
         })
+    }
+
+    /* Filtering for search */
+    var filteredExercises: [Exercise] {
+        if searchName.isEmpty {
+            return allExercises
+        }
+
+        var descriptor = FetchDescriptor<Exercise>()
+        descriptor.predicate = #Predicate { exercise in
+            exercise.name.localizedStandardContains(searchName)
+        }
+        let filteredList = try? context.fetch(descriptor)
+        return filteredList ?? []
     }
 }
 
@@ -103,7 +114,7 @@ struct ExerciseDetailView: View {
         context.insert(Exercise(name: selectedExercise.name,
                                 information: selectedExercise.information,
                                 category: selectedExercise._category))
-//        resetFields()
+        resetFields()
 //       }
     }
 
