@@ -17,6 +17,7 @@ struct WorkoutSwiftDataApp: App {
                 exerciseView
             }
             .modelContainer(for: Workout.self) /* No need to puth [Workout,Exercise], since we have a relationship between them*/
+            .preferredColorScheme(.dark)
         }
     }
 

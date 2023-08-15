@@ -19,21 +19,17 @@ struct ExerciseView: View {
         VStack {
             List {
                 if allExercises.isEmpty {
-                    ContentUnavailableView("You don't have exercises yet", systemImage: "figure.strengthtraining.traditional")
+                    ContentUnavailableView("No exercises", systemImage: "figure.strengthtraining.traditional")
+                        .foregroundStyle(Color.accentColor)
                 } else {
                     ForEach(filteredExercises) { exercise in
-                        VStack(alignment: .leading) {
-                            Text(exercise.name)
-                                .font(.title)
-                            Text(exercise.category.rawValue)
-                                .font(.callout)
-                            Divider()
-                            Text(exercise.information)
-                        }
-                        .onTapGesture {
-                            showDetail.toggle()
-                            selectedExercise = exercise
-                        }
+                        exerciseRow(exercise: exercise)
+                            .onTapGesture {
+                                showDetail.toggle()
+                                selectedExercise = exercise
+                            }
+                            .listRowBackground(Color.darkGrey)
+                            .listSectionSeparatorTint(Color.red)
                     }
                     .onDelete(perform: { indexSet in
                         indexSet.forEach {
@@ -43,9 +39,8 @@ struct ExerciseView: View {
                     })
                 }
             }
-            .listStyle(.plain)
         }
-        .searchable(text: $searchName, prompt: "Search an exercise name")
+        .searchable(text: $searchName, prompt: "Search an exercise..")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing, content: {
                 Button(action: {
@@ -53,7 +48,7 @@ struct ExerciseView: View {
                 }, label: {
                     Text("+ New exercise")
                         .padding(6)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.accent)
                 })
             })
         }
@@ -61,6 +56,23 @@ struct ExerciseView: View {
             ExerciseDetailView(selectedExercise: (selectedExercise ?? Exercise.mock().first)!)
 
         })
+    }
+
+    @ViewBuilder
+    func exerciseRow(exercise: Exercise) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(exercise.name)
+                .font(.title)
+            Text(exercise.category.rawValue)
+                .font(.caption)
+                .foregroundStyle(Color.white)
+                .padding(5)
+                .background {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(exercise.category == .upperbody ? Color.blue.opacity(0.7) : Color.red.opacity(0.7))
+                }
+            Text(exercise.information)
+        }
     }
 
     /* Filtering for search */
@@ -124,7 +136,7 @@ struct ExerciseDetailView: View {
 #Preview {
     NavigationStack {
         ExerciseView()
-            .modelContainer(for: Exercise.self, inMemory: true)
+            .modelContainer(for: Exercise.self, inMemory: false)
     }
 }
 

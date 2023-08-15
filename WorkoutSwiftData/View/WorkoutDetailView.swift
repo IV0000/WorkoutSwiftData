@@ -14,10 +14,10 @@ struct WorkoutDetailView: View {
            animation: .bouncy)
     var exercises: [Exercise]
     var workout: Workout
-    @State private var selectedExercises: [Exercise]?
+    @State private var selectedExercises: Set<Exercise> = []
     var body: some View {
         VStack {
-            // TODO: Add select
+            /* Selection aint working atm on beta iOS 17*/
             List(exercises, selection: $selectedExercises) { exercise in
                 Text(exercise.name)
             }
@@ -26,7 +26,8 @@ struct WorkoutDetailView: View {
             }
 
             Button("Add selected") {
-                workout.exercises = selectedExercises ?? []
+//                    workout.exercises = Array(selectedExercises)
+                workout.exercises?.append(exercises.first ?? Exercise.mock().first!)
             }
         }
     }

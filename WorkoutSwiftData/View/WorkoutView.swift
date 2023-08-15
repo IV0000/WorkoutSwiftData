@@ -16,13 +16,8 @@ struct WorkoutView: View {
            animation: .bouncy)
     var allWorkouts: [Workout]
 
-    @Query(sort: [SortDescriptor(\Exercise.name, order: .forward)],
-           animation: .bouncy)
-    var allExercises: [Exercise]
-
     @State var workoutName: String = ""
     @State var workoutDescription: String = ""
-    var exercises: [Exercise] = []
     var body: some View {
         VStack {
             List {
@@ -39,13 +34,13 @@ struct WorkoutView: View {
                 } else {
                     Section("Workouts") {
                         ForEach(allWorkouts) { workout in
-                            VStack(alignment: .leading) {
-                                NavigationLink(value: workout) {
+                            NavigationLink(value: workout) {
+                                VStack(alignment: .leading) {
                                     Text(workout.name)
                                     Text(workout.information)
 
-                                    if exercises.isEmpty {
-                                        Text("Exercises: " + exercises.map { $0.name }.joined(separator: ", "))
+                                    if let exer = workout.exercises,!exer.isEmpty {
+                                        Text("Exercises: " + exer.map { $0.name }.joined(separator: ", "))
                                     }
                                 }
                             }
