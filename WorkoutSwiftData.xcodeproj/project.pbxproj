@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FF6D434E2A8A76E500CCFB4B /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6D434D2A8A76E500CCFB4B /* WorkoutDetailView.swift */; };
+		FF6D43502A8BE51F00CCFB4B /* ExerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6D434F2A8BE51F00CCFB4B /* ExerciseDetailView.swift */; };
 		FF7B85802A31B28500ABE703 /* WorkoutSwiftDataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B857F2A31B28500ABE703 /* WorkoutSwiftDataApp.swift */; };
 		FF7B85822A31B28500ABE703 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B85812A31B28500ABE703 /* WorkoutView.swift */; };
 		FF7B85842A31B28600ABE703 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF7B85832A31B28600ABE703 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		FF6D434D2A8A76E500CCFB4B /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
+		FF6D434F2A8BE51F00CCFB4B /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
 		FF7B857C2A31B28500ABE703 /* WorkoutSwiftData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutSwiftData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF7B857F2A31B28500ABE703 /* WorkoutSwiftDataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSwiftDataApp.swift; sourceTree = "<group>"; };
 		FF7B85812A31B28500ABE703 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				FF7B85812A31B28500ABE703 /* WorkoutView.swift */,
 				FF6D434D2A8A76E500CCFB4B /* WorkoutDetailView.swift */,
 				FF7B85942A33598E00ABE703 /* ExerciseView.swift */,
+				FF6D434F2A8BE51F00CCFB4B /* ExerciseDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF6D43502A8BE51F00CCFB4B /* ExerciseDetailView.swift in Sources */,
 				FF7B85822A31B28500ABE703 /* WorkoutView.swift in Sources */,
 				FF6D434E2A8A76E500CCFB4B /* WorkoutDetailView.swift in Sources */,
 				FF7B85932A31B57C00ABE703 /* Exercise.swift in Sources */,

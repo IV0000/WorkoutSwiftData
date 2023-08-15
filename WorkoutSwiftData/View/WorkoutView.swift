@@ -21,26 +21,34 @@ struct WorkoutView: View {
     var body: some View {
         VStack {
             List {
-                Section("New workout") {
-                    TextField("Workout name", text: $workoutName)
-                    TextField("Workout description", text: $workoutDescription)
-                        .lineLimit(1 ... 3)
-                    Button("Save") {
-                        createWorkout()
-                    }
-                }
                 if allWorkouts.isEmpty {
                     ContentUnavailableView("You don't have workouts yet", systemImage: "dumbbell.fill")
+                        .foregroundStyle(Color.accentColor)
                 } else {
                     Section("Workouts") {
                         ForEach(allWorkouts) { workout in
                             NavigationLink(value: workout) {
+                                
                                 VStack(alignment: .leading) {
-                                    Text(workout.name)
-                                    Text(workout.information)
+                                    HStack{
+                                        Text("Mon")
+                                            .font(.system(size: 20,weight: .semibold))
+                                            
+                                            .frame(width: 50,height: 50)
+                                            .background{
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .foregroundStyle(Color.accentColor)
+                                            }
+                                        VStack(alignment: .leading){
+                                            Text(workout.name)
+                                                .font(.title3)
+                                            Text(workout.information)
+                                                .font(.body)
+                                        }
+                                    }
 
-                                    if let exer = workout.exercises,!exer.isEmpty {
-                                        Text("Exercises: " + exer.map { $0.name }.joined(separator: ", "))
+                                    if let exercises = workout.exercises,!exercises.isEmpty {
+                                        Text("Exercises: " + exercises.map { $0.name }.joined(separator: ", "))
                                     }
                                 }
                             }
@@ -59,9 +67,19 @@ struct WorkoutView: View {
                             try? context.save()
                         })
                     }
+                    .listRowBackground(Color.darkGrey)
                 }
+                Section("New workout") {
+                    TextField("Workout name", text: $workoutName)
+                    TextField("Workout description", text: $workoutDescription)
+                        .lineLimit(1 ... 3)
+                    Button("Create") {
+                        createWorkout()
+                    }
+                    .disabled(workoutName.isEmpty || workoutDescription.isEmpty)
+                }
+                .listRowBackground(Color.darkGrey)
             }
-            .listStyle(.plain)
         }
     }
 
@@ -76,5 +94,5 @@ struct WorkoutView: View {
 
 #Preview {
     WorkoutView()
-        .modelContainer(for: Workout.self, inMemory: true)
+        .modelContainer(for: Workout.self, inMemory: false)
 }

@@ -29,7 +29,6 @@ struct ExerciseView: View {
                                 selectedExercise = exercise
                             }
                             .listRowBackground(Color.darkGrey)
-                            .listSectionSeparatorTint(Color.red)
                     }
                     .onDelete(perform: { indexSet in
                         indexSet.forEach {
@@ -90,59 +89,10 @@ struct ExerciseView: View {
     }
 }
 
-struct ExerciseDetailView: View {
-    @Environment(\.modelContext) private var context
-    @Environment(\.dismiss) var dismiss
-    @Bindable var selectedExercise: Exercise
-    var body: some View {
-        VStack {
-            List {
-                // Add check of not empty
-                Section("New exercise") {
-                    TextField("Exercise name", text: $selectedExercise.name)
-                    TextField("Exercise description", text: $selectedExercise.information)
-                    Picker("Select category", selection: $selectedExercise.category) {
-                        ForEach(ExerciseCategory.allCases, id: \.self) { option in
-                            Text(String(describing: option))
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                    Button("Save") {
-                        createExercise()
-                        dismiss()
-                    }
-                }
-            }
-            .listStyle(.plain)
-        }
-    }
-
-    func createExercise() {
-//       if let exercise = selectedExercise {
-        context.insert(Exercise(name: selectedExercise.name,
-                                information: selectedExercise.information,
-                                category: selectedExercise._category))
-        resetFields()
-//       }
-    }
-
-    func resetFields() {
-        selectedExercise.name = ""
-        selectedExercise.information = ""
-        selectedExercise.category = .upperbody
-    }
-}
 
 #Preview {
     NavigationStack {
         ExerciseView()
             .modelContainer(for: Exercise.self, inMemory: false)
     }
-}
-
-func ?? <T>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
-    Binding(
-        get: { lhs.wrappedValue ?? rhs },
-        set: { lhs.wrappedValue = $0 }
-    )
 }
