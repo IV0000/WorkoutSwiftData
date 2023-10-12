@@ -50,8 +50,8 @@ struct ExerciseDetailView: View {
     }
 }
 
-/*Don't work idk why */
-//#Preview {
+/* Don't work idk why */
+// #Preview {
 //    ExerciseDetailView(selectedExercise:Exercise.mock().first!)
 //        .modelContainer(for: Exercise.self, inMemory: true)
-//}
+// }

@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  WorkoutView.swift
 //  WorkoutSwiftData
 //
 //  Created by Ivan Voloshchuk on 08/06/23.
@@ -28,18 +28,17 @@ struct WorkoutView: View {
                     Section("Workouts") {
                         ForEach(allWorkouts) { workout in
                             NavigationLink(value: workout) {
-                                
                                 VStack(alignment: .leading) {
-                                    HStack{
+                                    HStack {
                                         Text("Mon")
-                                            .font(.system(size: 20,weight: .semibold))
-                                            
-                                            .frame(width: 50,height: 50)
-                                            .background{
+                                            .font(.system(size: 20, weight: .semibold))
+
+                                            .frame(width: 50, height: 50)
+                                            .background {
                                                 RoundedRectangle(cornerRadius: 10)
                                                     .foregroundStyle(Color.accentColor)
                                             }
-                                        VStack(alignment: .leading){
+                                        VStack(alignment: .leading) {
                                             Text(workout.name)
                                                 .font(.title3)
                                             Text(workout.information)

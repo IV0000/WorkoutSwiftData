@@ -89,7 +89,6 @@ struct ExerciseView: View {
     }
 }
 
-
 #Preview {
     NavigationStack {
         ExerciseView()
