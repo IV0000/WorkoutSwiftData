@@ -13,27 +13,50 @@ struct WorkoutDetailView: View {
     @Query(sort: [SortDescriptor(\Exercise.name, order: .forward)],
            animation: .bouncy)
     var exercises: [Exercise]
-    var workout: Workout
+    @Bindable var workout: Workout
     @State private var selectedExercises: Set<Exercise> = []
+    @State private var selectedDay = Day.Monday
     var body: some View {
         VStack {
             /* Selection aint working atm on beta iOS 17*/
             List(exercises, selection: $selectedExercises) { exercise in
-                Text(exercise.name)
+                Section("Exercies") {
+                    Text(exercise.name)
+                }
+
+                Section("Workout day") {
+                    Picker("Day", selection: $selectedDay) {
+                        ForEach(Day.allCases, id: \.self) {
+                            Text($0.rawValue).tag($0)
+                        }
+                    }
+                }
             }
             .toolbar {
                 EditButton()
             }
 
-            Button("Add selected") {
+            Button("Confirm") {
 //                    workout.exercises = Array(selectedExercises)
+                // NOT WORKING ATM
                 workout.exercises?.append(exercises.first ?? Exercise.mock().first!)
+                workout.selectedDay = selectedDay
             }
+            .buttonStyle(PrimaryButton())
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16)
         }
+        .onAppear { selectedDay = workout.selectedDay }
     }
 }
 
 #Preview {
-    WorkoutDetailView(workout: Workout.mock().first!)
-        .modelContainer(for: Workout.self, inMemory: true)
+    /*
+     https://www.hackingwithswift.com/quick-start/swiftdata/how-to-use-swiftdata-in-swiftui-previews
+     */
+
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Workout.self, configurations: config)
+    return WorkoutDetailView(workout: Workout.mock().first!)
+        .modelContainer(container)
 }

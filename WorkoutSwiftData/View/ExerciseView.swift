@@ -11,10 +11,11 @@ import SwiftUI
 struct ExerciseView: View {
     @Environment(\.modelContext) private var context
 //    @Query(sort: [SortDescriptor<Workout>(\Workout.exercises.name, order: .forward)]) var allExercises: [Exercise]
-    @Query var allExercises: [Exercise]
-    @State var showDetail: Bool = false
-    @State var selectedExercise: Exercise?
-    @State var searchName: String = ""
+    @Query private var allExercises: [Exercise]
+    @State private var showDetail: Bool = false
+    @State private var selectedExercise: Exercise?
+    @State private var searchName: String = ""
+    @State private var isUpdate: Bool = false
     var body: some View {
         VStack {
             List {
@@ -25,8 +26,9 @@ struct ExerciseView: View {
                     ForEach(filteredExercises) { exercise in
                         exerciseRow(exercise: exercise)
                             .onTapGesture {
-                                showDetail.toggle()
+                                isUpdate = true
                                 selectedExercise = exercise
+                                showDetail.toggle()
                             }
                             .listRowBackground(Color.darkGrey)
                     }
@@ -38,22 +40,18 @@ struct ExerciseView: View {
                     })
                 }
             }
+            Button("+ New exercise", action: {
+                isUpdate = false
+                showDetail.toggle()
+            })
+            .buttonStyle(PrimaryButton())
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16)
         }
         .searchable(text: $searchName, prompt: "Search an exercise..")
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing, content: {
-                Button(action: {
-                    showDetail.toggle()
-                }, label: {
-                    Text("+ New exercise")
-                        .padding(6)
-                        .foregroundStyle(.accent)
-                })
-            })
-        }
         .sheet(isPresented: $showDetail, content: {
-            ExerciseDetailView(selectedExercise: (selectedExercise ?? Exercise.mock().first)!)
-
+            ExerciseDetailView(selectedExercise: (selectedExercise ?? Exercise.mock().first)!,
+                               isUpdate: isUpdate)
         })
     }
 

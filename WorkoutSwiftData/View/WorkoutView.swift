@@ -30,7 +30,7 @@ struct WorkoutView: View {
                             NavigationLink(value: workout) {
                                 VStack(alignment: .leading) {
                                     HStack {
-                                        Text("Mon")
+                                        Text(workout.selectedDay.rawValue.prefix(3))
                                             .font(.system(size: 20, weight: .semibold))
 
                                             .frame(width: 50, height: 50)

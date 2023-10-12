@@ -14,13 +14,23 @@ final class Workout {
     var name: String
     var information: String // * read the note below *
     var createdAt: Date
+    private var _selectedDay: String
+
+    // Workaround with enums
+    @Transient
+    var selectedDay: Day {
+        get { Day(rawValue: _selectedDay) ?? .Monday }
+        set(newValue) { _selectedDay = newValue.rawValue }
+    }
+
     var exercises: [Exercise]?
 
-    init(id: String, name: String, createdAt: Date, information: String) {
+    init(id: String, name: String, createdAt: Date, information: String, day: Day = .Monday) {
         self.id = id
         self.name = name
         self.createdAt = createdAt
         self.information = information
+        _selectedDay = day.rawValue
     }
 }
 
@@ -38,3 +48,8 @@ extension Workout {
  Apparently using system names such as "description" is not allowed.
  I'm not sure if it a bug of the beta, or it is written somewhere in documentation.
  */
+
+// The enum should be Codable if we want to persist it with SwiftData
+enum Day: String, CaseIterable, Codable {
+    case Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
+}

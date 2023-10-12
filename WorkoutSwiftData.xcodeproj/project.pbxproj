@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF56BC152AD841BD001DD5A0 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF56BC142AD841BD001DD5A0 /* ButtonStyle.swift */; };
 		FF6D434E2A8A76E500CCFB4B /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6D434D2A8A76E500CCFB4B /* WorkoutDetailView.swift */; };
 		FF6D43502A8BE51F00CCFB4B /* ExerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6D434F2A8BE51F00CCFB4B /* ExerciseDetailView.swift */; };
 		FF7B85802A31B28500ABE703 /* WorkoutSwiftDataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7B857F2A31B28500ABE703 /* WorkoutSwiftDataApp.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FF56BC142AD841BD001DD5A0 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		FF6D434D2A8A76E500CCFB4B /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
 		FF6D434F2A8BE51F00CCFB4B /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
 		FF7B857C2A31B28500ABE703 /* WorkoutSwiftData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutSwiftData.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,6 +44,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FF56BC162AD841C4001DD5A0 /* Extra */ = {
+			isa = PBXGroup;
+			children = (
+				FF56BC142AD841BD001DD5A0 /* ButtonStyle.swift */,
+			);
+			path = Extra;
+			sourceTree = "<group>";
+		};
 		FF7B85732A31B28500ABE703 = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +74,7 @@
 				FF7B857F2A31B28500ABE703 /* WorkoutSwiftDataApp.swift */,
 				FF7B85962A33607D00ABE703 /* View */,
 				FF7B858D2A31B42800ABE703 /* Model */,
+				FF56BC162AD841C4001DD5A0 /* Extra */,
 				FF7B85832A31B28600ABE703 /* Assets.xcassets */,
 				FF7B85852A31B28600ABE703 /* Preview Content */,
 			);
@@ -169,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF6D43502A8BE51F00CCFB4B /* ExerciseDetailView.swift in Sources */,
+				FF56BC152AD841BD001DD5A0 /* ButtonStyle.swift in Sources */,
 				FF7B85822A31B28500ABE703 /* WorkoutView.swift in Sources */,
 				FF6D434E2A8A76E500CCFB4B /* WorkoutDetailView.swift in Sources */,
 				FF7B85932A31B57C00ABE703 /* Exercise.swift in Sources */,
