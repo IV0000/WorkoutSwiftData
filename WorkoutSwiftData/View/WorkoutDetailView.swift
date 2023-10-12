@@ -15,15 +15,19 @@ struct WorkoutDetailView: View {
     var exercises: [Exercise]
     @Bindable var workout: Workout
     @State private var selectedExercises: Set<Exercise> = []
-    @State private var selectedDay = Day.Monday
+    @State private var selectedDay: Day = .Monday
     var body: some View {
         VStack {
+            // TODO: Implement selection
             /* Selection aint working atm on beta iOS 17*/
             List(exercises, selection: $selectedExercises) { exercise in
-                Section("Exercies") {
-                    Text(exercise.name)
-                }
+                Text(exercise.name)
+            }
+            .toolbar {
+                EditButton()
+            }
 
+            List {
                 Section("Workout day") {
                     Picker("Day", selection: $selectedDay) {
                         ForEach(Day.allCases, id: \.self) {
@@ -31,9 +35,6 @@ struct WorkoutDetailView: View {
                         }
                     }
                 }
-            }
-            .toolbar {
-                EditButton()
             }
 
             Button("Confirm") {

@@ -25,47 +25,45 @@ struct WorkoutView: View {
                     ContentUnavailableView("You don't have workouts yet", systemImage: "dumbbell.fill")
                         .foregroundStyle(Color.accentColor)
                 } else {
-                    Section("Workouts") {
-                        ForEach(allWorkouts) { workout in
-                            NavigationLink(value: workout) {
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        Text(workout.selectedDay.rawValue.prefix(3))
-                                            .font(.system(size: 20, weight: .semibold))
+                    ForEach(allWorkouts) { workout in
+                        NavigationLink(value: workout) {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(workout.selectedDay.rawValue.prefix(3))
+                                        .font(.system(size: 20, weight: .semibold))
 
-                                            .frame(width: 50, height: 50)
-                                            .background {
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .foregroundStyle(Color.accentColor)
-                                            }
-                                        VStack(alignment: .leading) {
-                                            Text(workout.name)
-                                                .font(.title3)
-                                            Text(workout.information)
-                                                .font(.body)
+                                        .frame(width: 50, height: 50)
+                                        .background {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .foregroundStyle(Color.accentColor)
                                         }
-                                    }
-
-                                    if let exercises = workout.exercises,!exercises.isEmpty {
-                                        Text("Exercises: " + exercises.map { $0.name }.joined(separator: ", "))
+                                    VStack(alignment: .leading) {
+                                        Text(workout.name)
+                                            .font(.title3)
+                                        Text(workout.information)
+                                            .font(.body)
                                     }
                                 }
-                            }
-                            .navigationDestination(for: Workout.self) { workout in
-                                WorkoutDetailView(workout: workout)
+
+                                if let exercises = workout.exercises,!exercises.isEmpty {
+                                    Text("Exercises: " + exercises.map { $0.name }.joined(separator: ", "))
+                                }
                             }
                         }
-
-                        .onDelete(perform: { indexSet in
-                            indexSet.forEach {
-                                context.delete(allWorkouts[$0])
-                            }
-                            /* After deleting an item, SwiftUI might attempt to reference the deleted content during the animation causing a crash.
-                             Workaround: Explicitly save after a delete.
-                             */
-                            try? context.save()
-                        })
+                        .navigationDestination(for: Workout.self) { workout in
+                            WorkoutDetailView(workout: workout)
+                        }
                     }
+
+                    .onDelete(perform: { indexSet in
+                        indexSet.forEach {
+                            context.delete(allWorkouts[$0])
+                        }
+                        /* After deleting an item, SwiftUI might attempt to reference the deleted content during the animation causing a crash.
+                         Workaround: Explicitly save after a delete.
+                         */
+                        try? context.save()
+                    })
                     .listRowBackground(Color.darkGrey)
                 }
                 Section("New workout") {
