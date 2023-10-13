@@ -18,9 +18,8 @@ struct WorkoutDetailView: View {
     @State private var selectedDay: Day = .Monday
     var body: some View {
         VStack {
-            // TODO: Implement selection
-            /* Selection aint working atm on beta iOS 17*/
-            List(exercises, selection: $selectedExercises) { exercise in
+            /* If I don't specify explicitly the ID, it won't work */
+            List(exercises, id: \.self, selection: $selectedExercises) { exercise in
                 Text(exercise.name)
             }
             .toolbar {
@@ -38,16 +37,17 @@ struct WorkoutDetailView: View {
             }
 
             Button("Confirm") {
-//                    workout.exercises = Array(selectedExercises)
-                // NOT WORKING ATM
-                workout.exercises?.append(exercises.first ?? Exercise.mock().first!)
+                workout.exercises = Array(selectedExercises)
                 workout.selectedDay = selectedDay
             }
             .buttonStyle(PrimaryButton())
             .padding(.horizontal, 16)
             .padding(.bottom, 16)
         }
-        .onAppear { selectedDay = workout.selectedDay }
+        .onAppear {
+            selectedDay = workout.selectedDay
+            selectedExercises = Set(workout.exercises ?? [])
+        }
     }
 }
 
